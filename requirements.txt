@@ -1,0 +1,2 @@
+pymongo==4.2.0
+confluent_kafka==1.9.2
