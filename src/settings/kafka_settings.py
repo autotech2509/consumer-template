@@ -1,20 +1,28 @@
 import os
+from autotech_sdk.kafka import ConfluentPublisherConfig, ConfluentConsumerConfig
 
 
 class KafkaTopic:
-    GMAIL_NOTIFY = os.environ.get("KAFKA_TOPIC", "gmail_notify")
+    GMAIL_NOTIFY = "gmail_notify"
+    SEND_MESSENGER_NOTIFY = "send_messenger_notify"
 
 
-CONFLUENT_KAFKA_PROD_CONFIG = {
-    "bootstrap.server": os.environ.get("BOOTSTRAP_SERVERS", "localhost:9092"),
-    "security.protocol": os.environ.get("SECURITY_PROTOCOL", "SASL_SSL"),
-    "sasl.mechanisms": os.environ.get("SASL_MECHANISMS", "PLAIN"),
-    "sasl.username": os.environ.get("SASL_USERNAME", ""),
-    "sasl.password": os.environ.get("SASL_PASSWORD", ""),
-    "session.timeout.ms": os.environ.get("SESSION_TIMEOUT_MS", 45000),
-    "schema.registry.url": os.environ.get("SCHEMA_REGISTRY_URL", "https://{{ SR_ENDPOINT }}"),
-    "basic.auth.credentials.source": os.environ.get("BASIC_AUTH_CREDENTIALS_SOURCE", "USER_INFO"),
-    "basic.auth.user.info": os.environ.get("BASIC_AUTH_USER_INFO", ""),
-    "group.id": os.environ.get("GROUP_ID", "default_group"),
-    "auto.offset.reset": os.environ.get("AUTO_OFFSET_RESET", "earliest")
-}
+CONFLUENT_KAFKA_CONSUMER_CONFIG = ConfluentConsumerConfig(
+    bootstrap_servers=os.environ.get("BOOTSTRAP_SERVERS", "localhost:9092"),
+    security_protocol=os.environ.get("SECURITY_PROTOCOL", "SASL_SSL"),
+    sasl_mechanisms=os.environ.get("SASL_MECHANISMS", "PLAIN"),
+    sasl_username=os.environ.get("SASL_USERNAME", ""),
+    sasl_password=os.environ.get("SASL_PASSWORD", ""),
+    session_timeout_ms=os.environ.get("SESSION_TIMEOUT_MS", 45000),
+    group_id=os.environ.get("GROUP_ID", "default_group"),
+    auto_offset_reset=os.environ.get("AUTO_OFFSET_RESET", "earliest")
+)
+
+
+CONFLUENT_KAFKA_PRODUCER_CONFIG = ConfluentPublisherConfig(
+    bootstrap_servers=os.environ.get("BOOTSTRAP_SERVERS", "localhost:9092"),
+    security_protocol=os.environ.get("SECURITY_PROTOCOL", "SASL_SSL"),
+    sasl_mechanisms=os.environ.get("SASL_MECHANISMS", "PLAIN"),
+    sasl_username=os.environ.get("SASL_USERNAME", ""),
+    sasl_password=os.environ.get("SASL_PASSWORD", ""),
+)

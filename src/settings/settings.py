@@ -1,6 +1,6 @@
 """Application configuration."""
 import os
-from src.database.mongo import MongoConfigParam
+from autotech_sdk.database.mongo import MongoConfig
 
 
 class Config(object):
@@ -15,21 +15,20 @@ class Config(object):
 class ProdConfig(Config):
     """Production configuration."""
 
-    MONGO_DB_SETTINGS = {
-        "MONGO_URI": os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
-        "DB_NAME": os.environ.get("DB_NAME", "prodDB")
-    }
+    MONGO_DB_SETTINGS = MongoConfig(
+        mongo_uri=os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
+        db_name=os.environ.get("DB_NAME", "prodDB")
+    )
 
 
 class DevConfig(Config):
     """Development configuration."""
 
-    DB_NAME = 'devDB'
     DB_PATH = None
-    MONGO_DB_SETTINGS = {
-        MongoConfigParam.MONGO_URI: os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
-        MongoConfigParam.DB_NAME: os.environ.get("DB_NAME", "devDB")
-    }
+    MONGO_DB_SETTINGS = MongoConfig(
+        mongo_uri=os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
+        db_name=os.environ.get("DB_NAME", "devDB")
+    )
 
     CACHE_TYPE = 'simple'   # Can be "memcached", "redis", etc
 
@@ -39,7 +38,7 @@ class TestConfig(Config):
 
     TESTING = True
     DEBUG = True
-    MONGO_DB_SETTINGS = {
-        "MONGO_URI": os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
-        "DB_NAME": os.environ.get("DB_NAME", "testDB")
-    }
+    MONGO_DB_SETTINGS = MongoConfig(
+        mongo_uri=os.environ.get("MONGO_URL", "mongodb://localhost:27017"),
+        db_name=os.environ.get("DB_NAME", "testDB")
+    )
